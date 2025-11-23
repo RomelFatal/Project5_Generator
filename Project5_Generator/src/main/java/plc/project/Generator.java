@@ -242,21 +242,54 @@ public final class Generator implements Ast.Visitor<Void> {
             print("}");
         }
 
-        return null;
 
+        return null;
         //throw new UnsupportedOperationException(); //TODO
     }
 //------------------------------------------ TEST PASSED ---------------------------------------------------
 
 
-//*****************// PROBLEMS HERE!!!!!!!!!***********************************
     // Part 8: Java "for" loop style
     @Override
     public Void visit(Ast.Statement.For ast) {
+        print("for ( ");
+        if (ast.getInitialization() != null) {
+            print(ast.getInitialization());
+            print(" ");
+        } else {
+            print("; ");
+        }
+
+        print(ast.getCondition());
+        print("; ");
+
+        // Trailing semicolon ";" inside the increment section of the
+        // "for" loop
+        if (ast.getIncrement() != null) {
+            print(ast.getIncrement());
+            print(" ");
+        } else {
+            print("");
+        }
 
 
+        print(") {");
+        if (ast.getStatements().isEmpty()) {
+            print("}");  // Close on the same line immediately if no statements
+        } else {
+            indent++;
+            for (Ast.Statement statements : ast.getStatements()) {
+                newline(indent);
+                print(statements);
+            }
+            indent--;
+            newline(indent);
+            print("}");
+        }
 
-        throw new UnsupportedOperationException(); //TODO
+
+        return null;
+        //throw new UnsupportedOperationException(); //TODO
     }
 //------------------------------------------ TEST NOT PASSED ---------------------------------------------------
 
